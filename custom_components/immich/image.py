@@ -8,14 +8,15 @@ import random
 
 from homeassistant.components.image import ImageEntity
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_API_KEY, CONF_HOST
+from homeassistant.const import CONF_API_KEY, CONF_HOST, CONF_SCAN_INTERVAL
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from .const import CONF_WATCHED_ALBUMS
 from .hub import ImmichHub
 
-SCAN_INTERVAL = timedelta(seconds=15)
+#SCAN_INTERVAL = timedelta(seconds=15)
+SCAN_INTERVAL = timedelta(seconds=config_entry.data[CONF_SCAN_INTERVAL])
 
 # How often to refresh the list of available asset IDs
 _ID_LIST_REFRESH_INTERVAL = timedelta(hours=12)
