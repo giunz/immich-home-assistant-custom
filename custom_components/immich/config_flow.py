@@ -9,7 +9,7 @@ from url_normalize import url_normalize
 import voluptuous as vol
 
 from homeassistant import config_entries
-from homeassistant.const import CONF_API_KEY, CONF_HOST
+from homeassistant.const import CONF_API_KEY, CONF_HOST, CONF_SCAN_INTERVAL
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.data_entry_flow import FlowResult
 from homeassistant.helpers import config_validation as cv
@@ -23,6 +23,7 @@ STEP_USER_DATA_SCHEMA = vol.Schema(
     {
         vol.Required(CONF_HOST): str,
         vol.Required(CONF_API_KEY): str,
+        vol.Required(CONF_SCAN_INTERVAL): int
     }
 )
 
@@ -35,6 +36,7 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str,
 
     url = url_normalize(data[CONF_HOST])
     api_key = data[CONF_API_KEY]
+    scan_interval = datapp[CONF_SCAN_INTERVAL]
 
     hub = ImmichHub(host=url, api_key=api_key)
 
@@ -48,7 +50,7 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str,
     # Return info that you want to store in the config entry.
     return {
         "title": f"{username} @ {clean_hostname}",
-        "data": {CONF_HOST: url, CONF_API_KEY: api_key},
+        "data": {CONF_HOST: url, CONF_API_KEY: api_key, CONF_SCAN_INTERVAL:scan_interval},
     }
 
 
